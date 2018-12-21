@@ -48,9 +48,36 @@ class Config(object):
     ＃配置文件读取内部函数
     def _read_config(self):
         config = {}
-        with open(args.config_path) in f:
-            
+        with open(args.config_path) as f:
+            for line in f.readlines():
+                key, value = line.strip().split('=')
+                config[key.strip()] = value.strip()
 
+        return config
+
+    def _get_config(self,key):
+        
+        return self.config[key]
+
+    def soical_insurance_baseline_low(self):
+
+        return _get_config('JiShuL')
+
+    def soical_insurance_baseline_high(self):
+
+        return _get_config('JiShuH')
+
+    def soical_insurance_tatal_rate(self):
+
+        return sum([
+            _get_config('YangLao'),
+            _get_config('YiLiao'),
+            _get_config('ShiYe'),
+            _get_config('GongShang'),
+            _get_config('ShengYu')
+            _get_config('GongJiJin')
+            ])
+        
 
         '''
         1.根据参数指定的配置文件路径，读取配置文件信息，并写入config字典中去
@@ -60,7 +87,28 @@ class Config(object):
 
 
 #用户数据类，
+class userData(object):
+    """docstring for userData"""
+    def __init__(self, arg):
+        pass
+
+    def _read_user_data(self):
+        userdata = []
+        with open(arg.userdata_path) as f:
+            for line in f.readlines():
+                employee_id, income_string = line.strip().split(',')
+            userdata.append((employee_id, income_string))
+
+        return userdata
+        
+
 
 #税后工资计算类
+class IncomeTaxCaculator(object):
+    
+    def __init__(self):
+        self.userdata = userdata
+        
+
 
 #执行
